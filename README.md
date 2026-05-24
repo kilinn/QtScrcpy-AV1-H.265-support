@@ -36,7 +36,7 @@ This fork was created using **Vibe Coding** (AI-assisted code generation) to add
 ### Changes
 - Added a **video codec selector** (H.264 / H.265 / AV1) dropdown in the start config panel
 - Persist codec selection to `config/config.ini` under the `VideoCodec` key
-- Upgraded **FFmpeg from 4.x → 7.x** (avcodec-62, avformat-62, avutil-60, swscale-9, swresample-6)
+- Upgraded **FFmpeg from 4.x → 7.x** (pre-built binaries from [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds): avcodec-62, avformat-62, avutil-60, swscale-9, swresample-6)
 - Upgraded build environment to **Qt 6.11.1 + MSVC 2022**
 - Enabled `GuiPrivate` Qt module for Qt6 compatibility
 - Added `swresample` linkage for audio resampling
