@@ -1,12 +1,72 @@
-# QtScrcpy 
+# QtScrcpy (Vibe Coding Fork)
 
-[![Financial Contributors to Open Collective](https://opencollective.com/QtScrcpy/all/badge.svg?label=financial+contributors)](https://opencollective.com/QtScrcpy)
-![license](https://img.shields.io/badge/license-Apache2.0-blue.svg)
-![release](https://img.shields.io/github/v/release/kilinn/QtScrcpy-AV1-H.265-support.svg?color=orange&label=release%20(fork))
+[![license](https://img.shields.io/badge/license-Apache2.0-blue.svg)](LICENSE)
+[![release](https://img.shields.io/github/v/release/kilinn/QtScrcpy-AV1-H.265-support.svg?color=orange&label=download)](https://github.com/kilinn/QtScrcpy-AV1-H.265-support/releases)
 
 [中文用户？点我查看中文介绍](README_zh.md)
 
-> **⚠️ This is a Vibe Coding fork — see notes below**
+---
+
+## ⚠️ Vibe Coding Fork Notice
+
+This repository is a **fork** of [barry-ran/QtScrcpy](https://github.com/barry-ran/QtScrcpy) with H.265/AV1 video codec support added via **Vibe Coding** (AI-assisted code generation).
+
+It is an **experimental** project. Use at your own risk.
+
+### What's Changed
+
+- Added a **video codec selector** (H.264 / H.265 / AV1) dropdown in the start config panel
+- Codec selection persists in `config/config.ini` under the `VideoCodec` key
+- Upgraded **FFmpeg from 4.x to 7.x** (pre-built binaries from [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds): avcodec-62, avformat-62, avutil-60, swscale-9, swresample-6)
+- Upgraded build environment to **Qt 6.11.1 + MSVC 2022**
+- Enabled `GuiPrivate` Qt module for Qt6 compatibility
+- Added `swresample` linkage for audio resampling
+
+### Known Issues & Limitations
+
+- **Windows x64 only** — not tested on macOS or Linux (CI workflows may break)
+- **scrcpy-server unchanged** — the server JAR is still the original version; codec switching relies on client-side parameter negotiation via the scrcpy protocol. If your device does not support the selected codec, the connection may fail silently or show no video
+- **Build type: RelWithDebInfo** — the executable includes debug symbols (`.pdb` + `.ilk`), resulting in a larger download (~250 MB extracted vs the original ~75 MB)
+- **No automatic codec fallback** — if the device doesn't support H.265 or AV1, you must manually switch back to H.264
+- **Incomplete testing** — H.265/AV1 encoding quality, latency, and device compatibility have not been thoroughly validated across different Android devices
+- **Incomplete optimization** — no codec-specific bitrate tuning, no adaptive codec fallback logic, no performance benchmarking
+- **FFmpeg DLL upgrade from 4.x to 7.x** — some systems may need updated Visual C++ Redistributables
+- **No multi-platform packaging** — only Windows build artifacts are provided; no AppImage for Linux or DMG for macOS
+
+### Bugs & Risks
+
+This fork was generated with AI assistance and has **not been comprehensively tested**. The following risks are known:
+
+- The video codec dropdown selection may not persist correctly in some scenarios
+- Switching to a codec the device doesn't support may result in a black screen or crash
+- The larger build type (RelWithDebInfo) may cause unexpected behavior in memory-constrained environments
+- The FFmpeg 7.x DLLs may have compatibility issues with certain video decoders or GPU drivers
+- There may be **other undiscovered bugs** due to the AI-assisted development process
+
+**If you encounter any issues, please [open an issue](https://github.com/kilinn/QtScrcpy-AV1-H.265-support/issues) with details about your device, OS, and steps to reproduce.**
+
+### Contributing
+
+Contributions are welcome! Feel free to submit Pull Requests or open issues. Please direct all PRs to the `dev` branch.
+
+---
+
+*Below is the original QtScrcpy README (unchanged).*
+
+---
+
+# QtScrcpy 
+
+[![Financial Contributors to Open Collective](https://opencollective.com/QtScrcpy/all/badge.svg?label=financial+contributors)](https://opencollective.com/QtScrcpy)
+![Windows](https://github.com/barry-ran/QtScrcpy/workflows/Windows/badge.svg)
+![MacOS](https://github.com/barry-ran/QtScrcpy/workflows/MacOS/badge.svg)
+![Ubuntu](https://github.com/barry-ran/QtScrcpy/workflows/Ubuntu/badge.svg)
+
+![license](https://img.shields.io/badge/license-Apache2.0-blue.svg)
+![release](https://img.shields.io/github/v/release/barry-ran/QtScrcpy.svg)
+![star](https://img.shields.io/github/stars/barry-ran/QtScrcpy.svg)
+
+[中文用户？点我查看中文介绍](README_zh.md)
 
 QtScrcpy supports displaying and controlling Android devices via USB or over network. It does NOT require root privileges.
 
@@ -28,33 +88,6 @@ It focuses on:
 ![mac](screenshot/mac-en.png)
 
 ![linux](screenshot/linux-en.png)
-
-## Vibe Coding Notice
-
-This fork was created using **Vibe Coding** (AI-assisted code generation) to add H.265/AV1 video codec support. The following changes were made:
-
-### Changes
-- Added a **video codec selector** (H.264 / H.265 / AV1) dropdown in the start config panel
-- Persist codec selection to `config/config.ini` under the `VideoCodec` key
-- Upgraded **FFmpeg from 4.x → 7.x** (pre-built binaries from [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds): avcodec-62, avformat-62, avutil-60, swscale-9, swresample-6)
-- Upgraded build environment to **Qt 6.11.1 + MSVC 2022**
-- Enabled `GuiPrivate` Qt module for Qt6 compatibility
-- Added `swresample` linkage for audio resampling
-
-### Known Issues & Limitations
-- **Windows x64 only** — not tested on macOS or Linux (CI workflows may break)
-- **scrcpy-server unchanged** — the server JAR is still the original version; codec switching relies on client-side parameter negotiation via the scrcpy protocol
-- **Build type: RelWithDebInfo** — the executable includes debug symbols (`.pdb` + `.ilk`), resulting in a larger download (~250 MB vs the original ~75 MB)
-- **FFmpeg DLL upgrade from 4.x to 7.x** — some systems may need updated Visual C++ Redistributables; API soversion changes (58→62) may cause plugin incompatibilities
-- **Incomplete testing** — H.265/AV1 encoding quality, latency, and device compatibility have not been thoroughly validated
-- **Incomplete optimization** — no codec-specific bitrate tuning, no adaptive codec fallback logic, no performance benchmarking
-- **No Android server recompilation** — the scrcpy-server requires the device's MediaCodec to support the selected codec; if the device doesn't support H.265 or AV1, the connection may fail silently or show no video
-- **No multi-platform packaging** — only Windows build artifacts are provided; no AppImage for Linux or DMG for macOS
-
-### Disclaimer
-This is an experimental fork created with AI assistance. Use at your own risk. It is recommended to test thoroughly before using in production environments.
-
----
 
 ## The author has developed a more professional screen casting software called `QuickMirror`
 QuickMirror function&features:
@@ -173,6 +206,24 @@ Prebuilt archive with all dependencies (including ADB) is available at this fork
 - [`QtScrcpy-AV1-H.265-support`][fork-download]
 
 or you can [build it yourself](#Build)
+
+### Mac OS
+On Mac OS, for simplicity, prebuilt archives with all the dependencies (including ADB) are available at Releases:
+
+- [`QtScrcpy`][github-download]
+
+or you can [build it yourself](#Build)
+
+### Linux
+For Arch Linux Users, you can use AUR to install: `yay -Syu qtscrcpy` (may be outdated; maintainer: [yochananmarqos](https://aur.archlinux.org/yochananmarqos))
+
+For users in other distros, you can use the prebuilt archives from Releases:
+
+- [`QtScrcpy`][github-download]
+
+or you can get it at [GitHub Actions](https://github.com/barry-ran/QtScrcpy/actions/workflows/ubuntu.yml), in branch `dev` and download the latest artifact.
+
+or you can [build it yourself](#Build) (not recommended, get it in Actions if you can)
 
 ## Run
 Connect to your Android device on your computer, then run the program and click `USB connect` or `WiFi connect`

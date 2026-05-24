@@ -1,3 +1,60 @@
+# QtScrcpy (Vibe Coding 分支)
+
+[![license](https://img.shields.io/badge/license-Apache2.0-blue.svg)](LICENSE)
+[![release](https://img.shields.io/github/v/release/kilinn/QtScrcpy-AV1-H.265-support.svg?color=orange&label=下载)](https://github.com/kilinn/QtScrcpy-AV1-H.265-support/releases)
+
+[Speaks English? Click me for English introduction.](README.md)
+
+---
+
+## ⚠️ Vibe Coding 分支说明
+
+本仓库是 [barry-ran/QtScrcpy](https://github.com/barry-ran/QtScrcpy) 的一个 **fork**，通过 **Vibe Coding（AI 辅助编码）** 添加了 H.265/AV1 视频编码选择功能。
+
+这是一个**实验性**项目，请自行评估风险后使用。
+
+### 改动内容
+
+- 在启动配置面板中新增了**视频编码选择下拉框**（H.264 / H.265 / AV1）
+- 编码选择会持久化保存到 `config/config.ini` 的 `VideoCodec` 字段
+- **FFmpeg 从 4.x 升级到 7.x**（预编译二进制来自 [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds)：avcodec-62, avformat-62, avutil-60, swscale-9, swresample-6）
+- 编译环境升级为 **Qt 6.11.1 + MSVC 2022**
+- 启用 `GuiPrivate` Qt 模块以兼容 Qt6
+- 新增 `swresample` 链接用于音频重采样
+
+### 已知问题与限制
+
+- **仅 Windows x64** — 未在 macOS 或 Linux 上测试（CI 工作流可能不可用）
+- **scrcpy-server 未重新编译** — 服务端 JAR 仍是原版，编码切换通过客户端协议协商实现。如果设备不支持所选编码，可能连接失败或无画面
+- **构建类型为 RelWithDebInfo** — 可执行文件包含调试符号（`.pdb` + `.ilk`），下载体积较大（解压后约 250 MB，原版约 75 MB）
+- **无自动编码降级** — 如果设备不支持 H.265 或 AV1，需要手动切换回 H.264
+- **测试不充分** — H.265/AV1 的编码质量、延迟和设备兼容性未经过全面验证
+- **优化不充分** — 未进行针对编码器的码率调优，无自适应编码回退逻辑，无性能基准测试
+- **FFmpeg DLL 从 4.x 升级到 7.x** — 部分系统可能需要更新 Visual C++ Redistributable 运行库
+- **无多平台打包** — 仅提供 Windows 编译产物，没有 Linux AppImage 或 macOS DMG
+
+### 已知风险
+
+本分支由 AI 辅助生成，**未经全面测试**，存在以下已知风险：
+
+- 视频编码下拉框的选择在某些场景下可能无法正确持久化
+- 切换到设备不支持的编码可能导致黑屏或崩溃
+- RelWithDebInfo 构建类型在内存受限环境下可能导致意外行为
+- FFmpeg 7.x DLL 可能与某些视频解码器或 GPU 驱动存在兼容性问题
+- **可能还存在其他未发现的 bug**
+
+**如果遇到问题，请[提交 Issue](https://github.com/kilinn/QtScrcpy-AV1-H.265-support/issues) 并附上设备型号、操作系统和复现步骤。**
+
+### 贡献
+
+欢迎提交 Pull Request 或 Issue。所有 PR 请指向 `dev` 分支。
+
+---
+
+*下面为原作者 README 原文（未修改）。*
+
+---
+
 # QtScrcpy
 
 ![Windows](https://github.com/barry-ran/QtScrcpy/workflows/Windows/badge.svg)
@@ -137,36 +194,35 @@ Android 部分至少需要 API 21（Android 5.0）。
 
 [gitee-download]: https://gitee.com/Barryda/QtScrcpy/releases
 [github-download]: https://github.com/barry-ran/QtScrcpy/releases
+[fork-download]: https://github.com/kilinn/QtScrcpy-AV1-H.265-support/releases
+
+> **注意**：本 fork 仅提供 Windows x64 编译版本。macOS/Linux 用户请使用[原项目 Releases][github-download]。
 
 ### Windows
 
-Windows 平台，你可以直接使用我编译好的可执行程序:
+本 fork 的预编译包（含 adb 等所有依赖）：
 
- - [国内下载][gitee-download]
- - [国外下载][github-download]
+- [QtScrcpy-AV1-H.265-support 下载][fork-download]
 
-你也可以[自己编译](##编译)
+你也可以[自己编译](#编译)
 
 ### Mac OS
 
-Mac OS 平台，你可以直接使用我编译好的可执行程序:
+Mac OS 平台，你可以直接使用原作者编译好的可执行程序:
 
-- [国内下载][gitee-download]
 - [国外下载][github-download]
 
-你也可以[自己编译](##编译)
+你也可以[自己编译](#编译)
 
 ### Linux
 
 对于 Arch Linux 用户，可以使用 AUR 安装：`yay -Syu qtscrcpy`（可能版本并非最新；维护者：[yochananmarqos](https://aur.archlinux.org/account/yochananmarqos)）
 
-其他发行版的用户可以直接使用我编译好的可执行程序:
+其他发行版的用户可以直接使用原作者编译好的可执行程序:
 
 - [国外下载][github-download]
 
-你也可以从 [GitHub Actions](https://github.com/UjhhgtgTeams/QtScrcpy/actions/workflows/ubuntu.yml) 获取最新的自动编译好的软件
-
-当然，你也可以[自己编译](##编译)（不推荐，需要准备环境）
+当然，你也可以[自己编译](#编译)（不推荐，需要准备环境）
 
 目前只在 Ubuntu 和 Arch Linux 上测试过编译过程
 
