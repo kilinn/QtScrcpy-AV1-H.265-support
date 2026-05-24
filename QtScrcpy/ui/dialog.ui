@@ -390,20 +390,61 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QComboBox" name="maxSizeBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
+             <item>
+              <widget class="QComboBox" name="maxSizeBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="labelVideoCodec">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>video codec:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="videoCodecBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>H.264: 兼容性最好，延迟最低（默认）&#x0A;H.265: 相同码率画质更好，但编码延迟较高，需设备支持&#x0A;AV1: 压缩率最高，仅新设备支持，旧设备可能导致无画面</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">H.264</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">H.265</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">AV1</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
           </widget>
          </item>
          <item>

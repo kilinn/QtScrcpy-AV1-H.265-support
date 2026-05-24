@@ -46,6 +46,7 @@ public:
     QString getLogLevel();
     QString getCodecOptions();
     QString getCodecName();
+    QString getVideoCodec();
     QStringList getConnectedGroups();
 
     // user data:common

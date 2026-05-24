@@ -47,6 +47,9 @@
 #define COMMON_CODEC_NAME_KEY "CodecName"
 #define COMMON_CODEC_NAME_DEF ""
 
+#define COMMON_VIDEO_CODEC_KEY "VideoCodec"
+#define COMMON_VIDEO_CODEC_DEF "h264"
+
 // user config
 #define COMMON_RECORD_KEY "RecordPath"
 #define COMMON_RECORD_DEF ""
@@ -353,6 +356,15 @@ QString Config::getCodecName()
     codecName = m_settings->value(COMMON_CODEC_NAME_KEY, COMMON_CODEC_NAME_DEF).toString();
     m_settings->endGroup();
     return codecName;
+}
+
+QString Config::getVideoCodec()
+{
+    QString videoCodec;
+    m_settings->beginGroup(GROUP_COMMON);
+    videoCodec = m_settings->value(COMMON_VIDEO_CODEC_KEY, COMMON_VIDEO_CODEC_DEF).toString();
+    m_settings->endGroup();
+    return videoCodec;
 }
 
 QStringList Config::getConnectedGroups()

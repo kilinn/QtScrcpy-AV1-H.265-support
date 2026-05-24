@@ -114,6 +114,7 @@ if (QT_DESIRED_VERSION MATCHES 6)
     # list(APPEND qt_required_components Core5Compat)
     list(APPEND qt_required_components OpenGL)
     list(APPEND qt_required_components OpenGLWidgets)
+    list(APPEND qt_required_components GuiPrivate)
 else()
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         list(APPEND qt_required_components X11Extras )
@@ -301,7 +302,7 @@ message(STATUS "multi config:" QC_IS_MUTIL_CONFIG)
 # 2. multi config在不用表达式生成器时自动追加子目录说明 https://cmake.org/cmake/help/latest/prop_tgt/RUNTIME_OUTPUT_DIRECTORY.html
 # 3. 使用表达式生成器禁止multi config自动追加子目录解决方案 https://stackoverflow.com/questions/7747857/in-cmake-how-do-i-work-around-the-debug-and-release-directories-visual-studio-2
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../output/${QC_CPU_ARCH}/${CMAKE_BUILD_TYPE}/$<0:>"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../newnew2"
 )
 
 #

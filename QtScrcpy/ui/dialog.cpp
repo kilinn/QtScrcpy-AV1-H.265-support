@@ -172,6 +172,16 @@ void Dialog::initUI()
     ui->lockOrientationBox->addItem("270");
     ui->lockOrientationBox->setCurrentIndex(0);
 
+    // 加载视频编码配置
+    QString codec = Config::getInstance().getVideoCodec();
+    if (codec == "h265") {
+        ui->videoCodecBox->setCurrentIndex(1);
+    } else if (codec == "av1") {
+        ui->videoCodecBox->setCurrentIndex(2);
+    } else {
+        ui->videoCodecBox->setCurrentIndex(0);
+    }
+
     // 加载IP历史记录
     loadIpHistory();
 
@@ -359,6 +369,17 @@ void Dialog::on_startServerBtn_clicked()
     params.logLevel = Config::getInstance().getLogLevel();
     params.codecOptions = Config::getInstance().getCodecOptions();
     params.codecName = Config::getInstance().getCodecName();
+    switch (ui->videoCodecBox->currentIndex()) {
+    case 1:
+        params.videoCodec = "h265";
+        break;
+    case 2:
+        params.videoCodec = "av1";
+        break;
+    default:
+        params.videoCodec = "h264";
+        break;
+    }
     params.scid = QRandomGenerator::global()->bounded(1, 10000) & 0x7FFFFFFF;
 
     qsc::IDeviceManage::getInstance().connectDevice(params);
